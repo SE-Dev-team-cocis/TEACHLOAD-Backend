@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('google_users', function (Blueprint $table) {
+        Schema::create('courses', function (Blueprint $table) {
             $table->id();
-            $table->string('provider_name');
-            $table->string('provider_id');
+            $table->string('course_name');
+            $table->string('course_code');
+            $table->string('course_cus');   /*cu===credit units */
             $table->timestamps();
         });
     }
@@ -24,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('google_users');
+        Schema::dropIfExists('courses');
     }
 };
