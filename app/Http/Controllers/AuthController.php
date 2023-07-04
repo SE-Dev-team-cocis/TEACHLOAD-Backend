@@ -12,27 +12,31 @@ class AuthController extends Controller
 {
     /*make register function */
     public function register(Request $request){
-        /*validate email */
+
+          /*validate email */
        $validatedEmail=Validator::make($request->all(),[
         'email'=>'required|string|email|max:255|unique:users'
        ]);
-       /*check validity */
+
+        /*check validity */
        if($validatedEmail->fails()){
-         return response()->json([
-            'error'=>'Duplicate email',
-            'status'=>'Response::HTTP_PROCESSABLE_ENTITY',
-            'message'=>'Duplicate Email detected. Please input another email'
+        return response()->json([
+           'error'=>'Duplicate email',
+           'status'=>'Response::HTTP_PROCESSABLE_ENTITY',
+           'message'=>'Duplicate Email detected. Please input another email'
 
-         ],Response::HTTP_UNPROCESSABLE_ENTITY);
-       }
-       /*  */
-       $validatedData = $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|string|email|max:255|unique:users',
-        'password' => 'required|confirmed',
+        ],Response::HTTP_UNPROCESSABLE_ENTITY);
+      }
 
-    ]);
+        /* Verify data exists */
+        $validatedData = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|confirmed',
+            'department'=>'required'
+        ]);
 
+        /**Hash password */
             $validatedData['password'] = bcrypt($request->password);
             $user = User::create($validatedData);
             // sends a verification email once registration is done
