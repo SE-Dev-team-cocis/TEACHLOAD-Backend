@@ -21,19 +21,20 @@ class AuthController extends Controller
         /*check validity */
        if($validatedEmail->fails()){
         return response()->json([
-           'error'=>'Duplicate email',
-           'status'=>'Response::HTTP_PROCESSABLE_ENTITY',
-           'message'=>'Duplicate Email detected. Please input another email'
+           'error'=>'Email Validation Error',
+           'message'=>'A user with this account already exists.'
 
-        ],Response::HTTP_UNPROCESSABLE_ENTITY);
+        ],Response::HTTP_OK);
       }
 
         /* Verify data exists */
         $validatedData = $request->validate([
-            'name' => 'required|string|max:255',
+            'firstName' => 'required|string|max:255',
+            'lastName' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|confirmed',
-            'department'=>'required'
+            'department'=>'required',
+            'role'=>'required'
         ]);
 
         /**Hash password */
@@ -42,7 +43,7 @@ class AuthController extends Controller
             // sends a verification email once registration is done
             // event(new Registered($user));
             $accessToken = $user->createToken('authToken')->accessToken;
-            return response(['access_token' => $accessToken], Response::HTTP_OK); //200
+            return response(['access_token' => $accessToken,'user'=>$user,'register'=>true], Response::HTTP_OK); //200
 
 
     }
@@ -57,11 +58,11 @@ class AuthController extends Controller
 
         ]);
         if (!auth()->attempt($loginData)) {
-            return response(['message' => 'invalid credentials'], 401);
+            return response(['message' => 'Invalid Login Credentials. Try again','login'=>false],Response::HTTP_OK);
         }
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
+        return response(['user' => auth()->user(), 'access_token' => $accessToken,'login'=>true]);
     }
 
     /*Logout Function */
