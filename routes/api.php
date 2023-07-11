@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\StaffController;
+use App\Http\Controllers\AssignmentController;
 
 
 /*
@@ -21,8 +22,9 @@ use App\Http\Controllers\StaffController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+Route::post('/assign',[AssignmentController::class,'create']);
+Route::get('/allAssign',[AssignmentController::class,'index']);
 
 Route::get('/courseUnits',[CourseController::class,'getAllCourse']);
 Route::get('/getStaff',[StaffController::class,'getAllStaff']);
-
 
