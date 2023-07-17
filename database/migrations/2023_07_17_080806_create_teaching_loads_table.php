@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('staff_id')->constrained('users')->cascadeOnDelete();
             $table->string("courses");
             $table->string("CUs");
-            $table->string("semester")->default("test_semester");
+            $table->integer("semester")->default(1);
             $table->foreignId('assignee_id')->constrained('users')->cascadeOnDelete()->default(1);
             $table->timestamps();
         });

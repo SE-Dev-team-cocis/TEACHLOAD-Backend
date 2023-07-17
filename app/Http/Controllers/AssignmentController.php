@@ -48,43 +48,7 @@ class AssignmentController extends Controller
 
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+    public function deleteLoadById($id){
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(TeachingLoad $assignment)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TeachingLoad $assignment)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TeachingLoad $assignment)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TeachingLoad $assignment)
-    {
-        //
     }
 }

@@ -12,7 +12,8 @@ class Course extends Model
     protected $fillable = [
         'course_name',
         'course_code',
-        'course_cus'
+        'course_cus',
+         'semester'
     ];
 
 
