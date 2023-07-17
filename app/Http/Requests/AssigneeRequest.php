@@ -24,7 +24,8 @@ class AssigneeRequest extends FormRequest
         return [
             'courses'=>'required',
             'CUs'=>'required',
-            'staff_id'=>'required'
+            'staff_id'=>'required',
+            'assignee_id'=>'required'
         ];
     }/**message to display */
 
@@ -33,7 +34,8 @@ class AssigneeRequest extends FormRequest
         return [
             'courses.required' => 'Email is required!',
             'CUs.required' => 'Name is required!',
-            'staff_id.required' => 'Password is required!'
+            'staff_id.required' => 'Password is required!',
+            'assignee_id.required' => 'Assignee is required'
         ];
     }
 }

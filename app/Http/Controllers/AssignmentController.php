@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Assignment;
+use App\Models\TeachingLoad;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\AssigneeRequest;
@@ -16,7 +16,7 @@ class AssignmentController extends Controller
     {
         //function to return assignees
         try{
-            $assignment=Assignment::all();
+            $assignment=TeachingLoad::all();
              return response(['assignments' => $assignment],200);
         }catch(\Exception $e){
             return response([
@@ -33,10 +33,11 @@ class AssignmentController extends Controller
     {
 
         try{
-            $assign =Assignment::create([
+            $assign =TeachingLoad::create([
                 'courses'=>$request->input('courses'),
                 'CUs'=>$request->input('CUs'),
-                'staff_id'=>$request->input('staff_id')
+                'staff_id'=>$request->input('staff_id'),
+                'assignee_id'=>$request->input('assignee_id')
              ]);
              return response(['assignment' => $assign],200);
         }catch(\Exception $e){
@@ -58,7 +59,7 @@ class AssignmentController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Assignment $assignment)
+    public function show(TeachingLoad $assignment)
     {
         //
     }
@@ -66,7 +67,7 @@ class AssignmentController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Assignment $assignment)
+    public function edit(TeachingLoad $assignment)
     {
         //
     }
@@ -74,7 +75,7 @@ class AssignmentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Assignment $assignment)
+    public function update(Request $request, TeachingLoad $assignment)
     {
         //
     }
@@ -82,7 +83,7 @@ class AssignmentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Assignment $assignment)
+    public function destroy(TeachingLoad $assignment)
     {
         //
     }
