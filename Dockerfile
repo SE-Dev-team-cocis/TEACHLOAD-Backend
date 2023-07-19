@@ -1,43 +1,26 @@
-FROM php:8.1-fpm-alpine
+FROM php:8.1-fpm
 
-# Set working directory
-WORKDIR /var/www/
+RUN curl -sS https://getcomposer.org/installer | php -- \
+     --install-dir=/usr/local/bin --filename=composer
 
-#adding
-# ADD . /var/www
-
-
-
-RUN docker-php-ext-install pdo pdo_mysql
-
-# Install PHP extensions
-# RUN docker-php-ext-install mysql pdo pdo_mysql mbstring exif pcntl bcmath gd
-
-# Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Copy composer files into te working directory
-COPY ./composer.* ./var/www/
-
-# Copy application files to te working direcory
-COPY ./ /var/www/
-
-# Run composer dump autoload and optimize
-RUN composer dump-autoload --optimize
-
-
-# CMD bash -c "composer install && php artisan serve"
+RUN apt-get update && apt-get install -y zlib1g-dev \
+    libzip-dev \
+    unzip
 
 
 
-# RUN apk add ffmpeg
+RUN docker-php-ext-install pdo pdo_mysql sockets zip
 
-# # Install system dependencies
-# RUN apt-get update && apt-get install -y \
-#     git \
-#     curl \
-#     libpng-dev \
-#     libonig-dev \
-#     libxml2-dev \
-#     zip \
-#     unzip \
+RUN mkdir /app
+
+ADD . /app
+
+WORKDIR /app
+
+RUN composer install
+
+CMD php artisan migrate:fresh; php artisan passport:install; php artisan serve --host=0.0.0.0 --port=8000
+
+EXPOSE 8000

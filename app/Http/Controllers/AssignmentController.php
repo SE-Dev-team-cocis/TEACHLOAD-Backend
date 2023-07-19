@@ -6,6 +6,7 @@ use App\Models\TeachingLoad;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\AssigneeRequest;
+use App\Models\User;
 
 class AssignmentController extends Controller
 {
@@ -17,7 +18,7 @@ class AssignmentController extends Controller
         //function to return assignees
         try{
             $assignment=TeachingLoad::all();
-             return response(['assignments' => $assignment],200);
+             return response(['assignments' => $assignment,'status'=>true],200);
         }catch(\Exception $e){
             return response([
                 'message'=> $e->getMessage()
@@ -33,13 +34,20 @@ class AssignmentController extends Controller
     {
 
         try{
+            $checkStaff = TeachingLoad::where('staff_id', '=',$request->input('staff_id'), 'and')->where('semester', '=', 1)->first();
+            if($checkStaff){
+                $user=User::find($checkStaff->staff_id);
+                return response(['status'=>false,'message' => $user->firstName. " ".$user->lastName." already has a teaching load in this Semester"],200);
+            }
+
             $assign =TeachingLoad::create([
                 'courses'=>$request->input('courses'),
                 'CUs'=>$request->input('CUs'),
                 'staff_id'=>$request->input('staff_id'),
                 'assignee_id'=>$request->input('assignee_id')
              ]);
-             return response(['assignment' => $assign],200);
+
+             return response(['status'=>true,'teachingLoad' => $assign,'message'=>'Teaching Load has been assigned successfully'],200);
         }catch(\Exception $e){
             return response([
                 'message'=> $e->getMessage()
@@ -48,7 +56,14 @@ class AssignmentController extends Controller
 
     }
 
-    public function deleteLoadById($id){
+    public function deleteLoadById(Request $request){
+        try{
 
+             return response(['assignment' => $assign],200);
+        }catch(\Exception $e){
+            return response([
+                'message'=> $e->getMessage()
+            ],400);
+        }
     }
 }
