@@ -55,11 +55,30 @@ class AssignmentController extends Controller
         }
 
     }
-
+    /*Delete by teaching load id */
     public function deleteLoadById(Request $request){
         try{
+            $load = TeachingLoad::where('id','=',$request->input('id'), 'and')->where('assignee_id','=',$request->input('assignee_id'),'and')->where('semester', '=',1)->delete();
 
-             return response(['assignment' => $assign],200);
+            if($load==0){
+                return response(['status'=>false,'message'=>'You have no teaching load to delete'],200);
+             }
+             return response(['status'=>true,'message'=>'Cleared all Your load for a specific Semester'],200);
+        }catch(\Exception $e){
+            return response([
+                'message'=> $e->getMessage()
+            ],400);
+        }
+    }
+    /*delete all teaching load of a specific head of department */
+    public function deleteLoad(Request $request){
+        try{
+            /*Test input */
+            $load = TeachingLoad::where('assignee_id', '=',$request->input('assignee_id'), 'and')->where('semester', '=',1)->delete();
+             if($load==0){
+                return response(['status'=>false,'message'=>'You have no teaching load to delete'],200);
+             }
+             return response(['status'=>false,'message'=>'Cleared all Your load for a specific Semester'],200);
         }catch(\Exception $e){
             return response([
                 'message'=> $e->getMessage()
