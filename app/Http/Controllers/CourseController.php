@@ -21,12 +21,27 @@ class CourseController extends Controller
    public function createSubgroup(Request $request):Response
    {
       try{
-        $sub=Subgroup::create([
-           'course_id'=>$request->input('course_id'),
-           'subgroup_name'=>$request->input('subgroup_name'),
-           'no_of_students'=>$request->input('no_of_students')
-        ]);
-        return response(['status'=>true,'subgroup' => $sub,'message'=>'Subgroup has been created successfully'],200);
+        $name='';
+        $requestValue=\json_decode($request->input('subgroups'));
+
+        foreach($requestValue as $value){
+          $name=$value->subgroup_name;
+
+          Subgroup::create([
+               'course_id'=>$value->course_id,
+               'subgroup_name'=>$value->subgroup_name,
+               'no_of_students'=>$value->no_of_students
+            ]);
+        }
+
+
+        // $sub=Subgroup::create([
+        //    'course_id'=>$request->input('course_id'),
+        //    'subgroup_name'=>$request->input('subgroup_name'),
+        //    'no_of_students'=>$request->input('no_of_students')
+        // ]);
+        return response(['status'=>true,'message'=>'Subgroup has been created successfully'],200);
+        return response(['message'=>$name],200);
       }catch(\Exception $e){
         return response([
             'message'=> $e->getMessage()
