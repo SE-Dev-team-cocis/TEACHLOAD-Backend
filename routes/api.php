@@ -27,6 +27,8 @@ Route::get('/allAssign',[AssignmentController::class,'index']);
 Route::delete('/delete',[AssignmentController::class,'deleteLoad']);
 Route::delete('/deleteload',[AssignmentController::class,'deleteLoadById']);
 
+Route::post('/subgroup/create',[CourseController::class,'createSubgroup']);
+
 Route::get('/courseUnits',[CourseController::class,'getAllCourse']);
 Route::get('/getStaff',[StaffController::class,'getAllStaff']);
 
