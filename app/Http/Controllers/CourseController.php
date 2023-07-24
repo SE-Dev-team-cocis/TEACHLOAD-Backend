@@ -26,22 +26,15 @@ class CourseController extends Controller
 
         foreach($requestValue as $value){
           $name=$value->subgroup_name;
-
+          /**Iterate through array load to create multiple  */
           Subgroup::create([
                'course_id'=>$value->course_id,
                'subgroup_name'=>$value->subgroup_name,
                'no_of_students'=>$value->no_of_students
             ]);
         }
+        return response(['status'=>true,'message'=>'Subgroups have been created successfully'],200);
 
-
-        // $sub=Subgroup::create([
-        //    'course_id'=>$request->input('course_id'),
-        //    'subgroup_name'=>$request->input('subgroup_name'),
-        //    'no_of_students'=>$request->input('no_of_students')
-        // ]);
-        return response(['status'=>true,'message'=>'Subgroup has been created successfully'],200);
-        return response(['message'=>$name],200);
       }catch(\Exception $e){
         return response([
             'message'=> $e->getMessage()
