@@ -32,3 +32,6 @@ Route::post('/subgroup/create',[CourseController::class,'createSubgroup']);
 Route::get('/courseUnits',[CourseController::class,'getAllCourse']);
 Route::get('/getStaff',[StaffController::class,'getAllStaff']);
 
+Route::post('/semesterlist/create',[CourseController::class,'createSemesterList']);
+Route::get('/semesterlist',[CourseController::class,'getAllSemesterList']);
+

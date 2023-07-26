@@ -12,7 +12,8 @@ class Course extends Model
 
 
     /*Course has many subgroups */
-    public function subgroups():HasMany{
+    public function subgroups():HasMany
+    {
         return $this->hasMany(Subgroup::class);
     }
 
@@ -27,5 +28,11 @@ class Course extends Model
         'created_at',
         'updated_at'
     ];
+    /*Course has many semesterlist */
+
+    public function semesterlists():HasMany
+    {
+        return $this->hasMany(SemesterList::class);
+    }
 
 }
