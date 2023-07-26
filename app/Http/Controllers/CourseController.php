@@ -16,7 +16,7 @@ class CourseController extends Controller
      $courseUnits=Course::all()->load('subgroups');
      /*return all courses Units*/
 
-     return response(['course_units' =>$courseUnits], Response::HTTP_OK); //200
+     return response(['course_units' =>\json_decode($courseUnits)], Response::HTTP_OK); //200
    }
    /*Create a subgroup */
    public function createSubgroup(Request $request):Response
