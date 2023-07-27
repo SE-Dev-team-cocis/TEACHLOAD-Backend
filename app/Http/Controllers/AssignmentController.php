@@ -17,8 +17,19 @@ class AssignmentController extends Controller
     {
         //function to return assignees
         try{
-            $assignment=TeachingLoad::all();
-             return response(['assignments' => $assignment,'status'=>true],200);
+            $load=TeachingLoad::all();
+            $teaching_load=array();
+
+            foreach($load as $value){
+                $magic['id']=$value->id;
+                $magic['CUs']=\json_decode($value->CUs);
+                $magic["staff_id"]=$value->staff_id;
+                $magic["courses"]=$value->courses;
+                $magic["semester"]=$value->semester;
+                $magic["assignee_id"]=$value->assignee_id;
+               array_push($teaching_load,$magic);
+            }
+             return response(['assignments' =>$teaching_load,'status'=>true],200);
         }catch(\Exception $e){
             return response([
                 'message'=> $e->getMessage()
@@ -39,6 +50,7 @@ class AssignmentController extends Controller
                 $user=User::find($checkStaff->staff_id);
                 return response(['status'=>false,'message' => $user->firstName. " ".$user->lastName." already has a teaching load in this Semester"],200);
             }
+
 
             $assign =TeachingLoad::create([
                 'courses'=>$request->input('courses'),
