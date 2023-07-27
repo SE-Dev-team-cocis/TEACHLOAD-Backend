@@ -19,20 +19,25 @@ use App\Http\Controllers\AssignmentController;
 |
 */
 
-Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/assign', [AssignmentController::class, 'create']);
-Route::get('/allAssign', [AssignmentController::class, 'index']);
-Route::delete('/delete', [AssignmentController::class, 'deleteLoad']);
-Route::delete('/deleteload', [AssignmentController::class, 'deleteLoadById']);
+Route::middleware(['cors'])->group(function () {
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
 
-Route::post('/subgroup/create', [CourseController::class, 'createSubgroup']);
+    Route::post('/assign', [AssignmentController::class, 'create']);
+    Route::get('/allAssign', [AssignmentController::class, 'index']);
+    Route::delete('/delete', [AssignmentController::class, 'deleteLoad']);
+    Route::delete('/deleteload', [AssignmentController::class, 'deleteLoadById']);
 
-Route::get('/courseUnits', [CourseController::class, 'getAllCourse']);
-Route::post('/courseUnits/create', [CourseController::class, 'createCourse']);
+    Route::post('/subgroup/create', [CourseController::class, 'createSubgroup']);
 
-Route::get('/getStaff', [StaffController::class, 'getAllStaff']);
+    Route::get('/courseUnits', [CourseController::class, 'getAllCourse']);
+    Route::post('/courseUnits/create', [CourseController::class, 'createCourse']);
 
-Route::post('/semesterlist/create', [CourseController::class, 'createSemesterList']);
-Route::get('/semesterlist', [CourseController::class, 'getAllSemesterList']);
+    Route::get('/getStaff', [StaffController::class, 'getAllStaff']);
+
+    Route::post('/semesterlist/create', [CourseController::class, 'createSemesterList']);
+    Route::get('/semesterlist', [CourseController::class, 'getAllSemesterList']);
+
+});
+
