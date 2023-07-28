@@ -24,7 +24,7 @@ class CourseController extends Controller
   public function createCourse(Request $request): Response
   {
 
-    return response("Courses: " . $request);
+    // return response("Courses: " . $request);
     try {
 
       $course = Course::create([
