@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('semester_lists', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('staff_id');
-            $table->unsignedBigInteger('course_id');
+            // $table->unsignedBigInteger('staff_id');
+            $table->foreignId('staff_id')->constrained('users')->cascadeOnDelete();
+            $table->foreignId('course_id')->constrained('courses')->cascadeOnDelete();
             $table->integer('semester');
             $table->timestamps();
         });

@@ -14,7 +14,7 @@ class CourseController extends Controller
 
   public function getAllCourse(): Response
   {
-    $courseUnits = Course::all()->load('subgroups');
+    $courseUnits = Course::all()->load('subgroups','semesterlists');
     /*return all courses Units*/
 
     return response(['course_units' => \json_decode($courseUnits)], Response::HTTP_OK); //200
@@ -70,15 +70,18 @@ class CourseController extends Controller
   public function createSemesterList(Request $request): Response
   {
     try {
-      $requestValue = \json_decode($request->input('semester_list'));
+    //   $requestValue = \json_decode($request->input('semester_list'));
+      $requestValue = $request->input('semester_list');
+
+
       foreach ($requestValue as $value) {
         SemesterList::create([
-          'staff_id' => $value->staff_id,
-          'course_id' => $value->course_id,
-          'semester' => $value->semester
+          'staff_id' => $value['staff_id'],
+          'course_id' => $value['course_id'],
+          'semester' => $value['semester']
         ]);
       }
-      return response(['status' => true, 'message' => 'Semester list has been created successfully'], 200);
+      return response(['status' => true, 'message' => 'Semester list has been created successfully','data'=>gettype($requestValue)], 200);
     } catch (\Exception $e) {
       return response([
         'message' => $e->getMessage()
@@ -91,7 +94,7 @@ class CourseController extends Controller
   public function getAllSemesterList(): Response
   {
     try {
-      $semesterList = SemesterList::all()->load('courses', 'staff');
+      $semesterList = SemesterList::all();
       return response(['semester_list' => $semesterList], Response::HTTP_OK);
     } catch (\Exception $e) {
       return response([
