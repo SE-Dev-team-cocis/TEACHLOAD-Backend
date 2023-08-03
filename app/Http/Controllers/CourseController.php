@@ -14,7 +14,7 @@ class CourseController extends Controller
 
   public function getAllCourse(): Response
   {
-    $courseUnits = Course::all()->load('subgroups','semesterlists');
+    $courseUnits = Course::all()->load('subgroups');
     /*return all courses Units*/
 
     return response(['course_units' => \json_decode($courseUnits)], Response::HTTP_OK); //200
@@ -94,7 +94,9 @@ class CourseController extends Controller
   public function getAllSemesterList(): Response
   {
     try {
-      $semesterList = SemesterList::all();
+
+      $semesterList = SemesterList::all()->load("course.subgroups");
+
       return response(['semester_list' => $semesterList], Response::HTTP_OK);
     } catch (\Exception $e) {
       return response([
