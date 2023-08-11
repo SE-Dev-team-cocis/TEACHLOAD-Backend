@@ -23,7 +23,8 @@ class Course extends Model
         'course_name',
         'course_code',
         'course_cus',
-        'semester_id'
+        'semester_id',
+        'department_id'
     ];
 
     protected $hidden = [

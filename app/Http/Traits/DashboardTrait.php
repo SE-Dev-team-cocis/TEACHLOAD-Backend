@@ -56,6 +56,11 @@ trait DashboardTrait {
 
           return ["under_load" => $under_load, "min_load" => $min_load, "extra_load" => $extra_load];
       }
+
      /*Categorize load  according to department*/
+     public static function categorize_load_dept($collection)
+     {
+
+     }
 
 }

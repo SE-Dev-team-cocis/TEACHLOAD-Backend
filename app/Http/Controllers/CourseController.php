@@ -31,7 +31,8 @@ class CourseController extends Controller
         'course_name' => $request->input("course_name"),
         'course_code' => $request->input("course_code"),
         'course_cus' => $request->input("course_cus"),
-        'semester' => $request->input("semester"),
+        'semester_id' => $request->input("semester"),
+        'department_id' => $request->departmentId
       ]);
       return response(['status' => true, 'message' => 'Course has been created successfully'], 200);
     } catch (\Exception $e) {

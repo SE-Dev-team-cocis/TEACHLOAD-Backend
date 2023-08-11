@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('course_code');
             $table->string('course_cus');   /*cu===credit units */
             $table->foreignId('semester_id')->constrained('semesters')->cascadeOnDelete()->default(1);
+            $table->foreignId('department_id')->constrained('departments')->cascadeOnDelete();
             $table->timestamps();
         });
     }
