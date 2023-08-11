@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('courses', function (Blueprint $table) {
+        Schema::create('colleges', function (Blueprint $table) {
             $table->id();
-            $table->string('course_name');
-            $table->string('course_code');
-            $table->string('course_cus');   /*cu===credit units */
-            $table->foreignId('semester_id')->constrained('semesters')->cascadeOnDelete()->default(1);
+            $table->string('college_name');
+            $table->string('college_code');
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('courses');
+        Schema::dropIfExists('colleges');
     }
 };
