@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Semester extends Model
 {
@@ -18,6 +19,6 @@ class Semester extends Model
     /* Semester has many courses */
     public function courses():HasMany
     {
-        return this->hasMany(Course::class);
+        return $this->hasMany(Course::class);
     }
 }

@@ -25,6 +25,6 @@ class Department extends Model
    /* Department has many courses */
    public function courses():HasMany
    {
-     return this->hasMany(Course::class);
+     return $this->hasMany(Course::class);
    }
 }
