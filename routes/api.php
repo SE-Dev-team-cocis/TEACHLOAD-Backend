@@ -50,6 +50,7 @@ Route::get('/semesterlist', [CourseController::class, 'getAllSemesterList']);
 
 /* Dashboard */
 Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::put('/broadcast/{id}',[DashboardController::class, 'broadcast_load']);
 
 /* Semester */
 Route::get('/semester', [SemesterController::class, 'getSemesters']);
