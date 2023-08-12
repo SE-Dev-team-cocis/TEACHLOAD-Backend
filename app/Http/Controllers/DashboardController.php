@@ -19,7 +19,8 @@ class DashboardController extends Controller
           $staff = User::all();
           $sample = $this->calculate_cus($taechingload,$staff);
           $total_load = $this->categorize_load($sample);
-          return response(["total_load"=>$total_load, "staff" => $sample], 200);
+          $deps = $this->categorize_load_dept($sample);
+          return response(["overall_total_load"=>$total_load, "staff" => $sample, "department_load"=>$deps], 200);
         }
         catch (\Exception $e) {
             return response([
