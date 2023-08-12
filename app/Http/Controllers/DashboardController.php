@@ -20,7 +20,7 @@ class DashboardController extends Controller
           $sample = $this->calculate_cus($taechingload,$staff);
           $total_load = $this->categorize_load($sample);
           $deps = $this->categorize_load_dept($sample);
-          return response(["overall_total_load"=>$total_load, "staff" => $sample, "department_load"=>$deps], 200);
+          return response(["overall_total_load"=>$total_load, "total_staff"=>$staff->count(), "staff" => $sample, "department_load"=>$deps], 200);
         }
         catch (\Exception $e) {
             return response([

@@ -1,6 +1,9 @@
 <?php
 namespace App\Http\Traits;
 use App\Models\Department;
+use App\Models\Course;
+use App\Models\TeachingLoad;
+
 trait DashboardTrait {
     public function sample_index() {
         return 1;
@@ -104,6 +107,10 @@ trait DashboardTrait {
 
         return $arrayOfObjects;
     }
+    /*Calculate allocated and unallocated courses */
+    public static function allocate_unallocate_func()
+    {
 
+    }
 }
 
