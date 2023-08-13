@@ -10,6 +10,25 @@ use App\Models\User;
 
 class AssignmentController extends Controller
 {
+
+    /** Static method to return all the load when a load is assigned */
+    public static function returnLoad()
+    {
+        $load = TeachingLoad::all();
+        $teaching_load = array();
+
+        foreach ($load as $value) {
+            $magic['id'] = $value->id;
+            $magic['CUs'] = \json_decode($value->CUs);
+            $magic["staff_id"] = $value->staff_id;
+            $magic["courses"] = $value->courses;
+            $magic["semester"] = $value->semester;
+            $magic["assignee_id"] = $value->assignee_id;
+            array_push($teaching_load, $magic);
+        }
+        return ['assignments' => $teaching_load, 'status' => true];
+    }
+
     /**
      * Display a listing of the resource.
      */
@@ -59,7 +78,15 @@ class AssignmentController extends Controller
                 'assignee_id'=>$request->input('assignee_id')
              ]);
 
-             return response(['status'=>true,'teachingLoad' => $assign,'message'=>'Teaching Load has been assigned successfully'],200);
+            $assignments = $this->returnLoad(); 
+
+             return response([
+                'status'=>true,
+                'teachingLoad' => $assign,
+                'message'=>'Teaching Load has been assigned successfully',
+                'assignments' => $assignments
+            
+            ],200);
         }catch(\Exception $e){
             return response([
                 'message'=> $e->getMessage()
