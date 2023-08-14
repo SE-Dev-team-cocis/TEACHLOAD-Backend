@@ -18,7 +18,7 @@ class DashboardController extends Controller
           $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
 
           if($taechingload->count() < 1){
-            return response(["message"=>"No Brodcast Load"], 200);
+            return response(["message"=>"There is currently no brodcast Load", "count" => 0], 200);
           }
           $staff = User::all();
           $sample = $this->calculate_cus($taechingload,$staff);
@@ -39,9 +39,21 @@ class DashboardController extends Controller
     public static function broadcast_load($id)
     {
         try{
-            $selected_load = TeachingLoad::where('assignee_id', $id)
-                                ->update(['broadcast' => true] );
-        return response(["message"=>"You have successfully broadcast your assigned", "success"=>true]);
+            $user = User::find($id);
+            /*check user existance */
+            if($user == null)
+            {
+              return response(["message"=>"User does not exist", "success"=>false]);
+            }
+
+            $selected_load = TeachingLoad::where('assignee_id', $id);
+            /* no load */
+            if($selected_load->get()->count() < 1 ){
+                return response(["message"=>"You have no load to broadcast", "success"=>false]);
+            }
+            $selected_load ->update(['broadcast' => true]);
+            /* Return message */
+            return response(["message"=>"You have successfully broadcast your assigned", "success"=>true]);
         }
         catch (\Exception $e) {
             return response([
