@@ -78,14 +78,14 @@ class AssignmentController extends Controller
                 'assignee_id'=>$request->input('assignee_id')
              ]);
 
-            $assignments = $this->returnLoad(); 
+            $assignments = $this->returnLoad();
 
              return response([
                 'status'=>true,
                 'teachingLoad' => $assign,
                 'message'=>'Teaching Load has been assigned successfully',
                 'assignments' => $assignments
-            
+
             ],200);
         }catch(\Exception $e){
             return response([
@@ -102,7 +102,15 @@ class AssignmentController extends Controller
             if($load==0){
                 return response(['status'=>false,'message'=>'You have no teaching load to delete'],200);
              }
-             return response(['status'=>true,'message'=>'Cleared all Your load for a specific Semester'],200);
+
+             /*Get all Load */
+             $assignments = $this->returnLoad();
+
+             return response([
+                   'status'=>true,
+                   'message'=>'Cleared all Your load for a specific Semester',
+                   'assignments' => $assignments
+                ],200);
         }catch(\Exception $e){
             return response([
                 'message'=> $e->getMessage()
@@ -117,7 +125,14 @@ class AssignmentController extends Controller
              if($load==0){
                 return response(['status'=>false,'message'=>'You have no teaching load to delete'],200);
              }
-             return response(['status'=>false,'message'=>'Cleared all Your load for a specific Semester'],200);
+
+             $assignments = $this->returnLoad();
+
+             return response([
+                    'status'=>true,
+                    'message'=>'Cleared all Your load for a specific Semester',
+                    'assignments' => $assignments
+                ],200);
         }catch(\Exception $e){
             return response([
                 'message'=> $e->getMessage()
