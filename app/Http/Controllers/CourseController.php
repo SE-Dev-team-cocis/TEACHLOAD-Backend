@@ -112,4 +112,14 @@ class CourseController extends Controller
       ], 400);
     }
   }
+
+    // Delete semester list
+    public function deleteSemesterList($id)
+    {
+        $list = SemesterList::find($id)
+            ->delete();
+         return response()->json([
+            'message' => 'You have deleted all the semester list'
+        ], 200);
+    }
 }
