@@ -82,7 +82,14 @@ class CourseController extends Controller
           'semester' => $value['semester']
         ]);
       }
-      return response(['status' => true, 'message' => 'Semester list has been created successfully','data'=>gettype($requestValue)], 200);
+        
+      $semesterList = SemesterList::all()->load("course.subgroups"); 
+      return response([
+            'status' => true, 
+            'message' => 'Semester list has been created successfully',
+            'data'=>gettype($requestValue),
+            'semesterlist' => $semesterList          
+        ], 200);
     } catch (\Exception $e) {
       return response([
         'message' => $e->getMessage()
