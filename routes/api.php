@@ -47,6 +47,7 @@ Route::get('/getStaff', [StaffController::class, 'getAllStaff']);
 /* Staff List */
 Route::post('/semesterlist/create', [CourseController::class, 'createSemesterList']);
 Route::get('/semesterlist', [CourseController::class, 'getAllSemesterList']);
+Route::delete('/semesterlist/delete/{id}', [CourseController::class, 'deleteSemesterList']);
 
 /* Dashboard */
 Route::get('/dashboard', [DashboardController::class, 'index']);
