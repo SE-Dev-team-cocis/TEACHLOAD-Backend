@@ -71,7 +71,7 @@ class CourseController extends Controller
   public function createSemesterList(Request $request): Response
   {
     try {
-    //   $requestValue = \json_decode($request->input('semester_list'));
+      //   $requestValue = \json_decode($request->input('semester_list'));
       $requestValue = $request->input('semester_list');
 
 
@@ -82,14 +82,14 @@ class CourseController extends Controller
           'semester' => $value['semester']
         ]);
       }
-        
-      $semesterList = SemesterList::all()->load("course.subgroups"); 
+
+      $semesterList = SemesterList::all()->load("course.subgroups");
       return response([
-            'status' => true, 
-            'message' => 'Semester list has been created successfully',
-            'data'=>gettype($requestValue),
-            'semesterlist' => $semesterList          
-        ], 200);
+        'status' => true,
+        'message' => 'Semester list has been created successfully',
+        'data' => gettype($requestValue),
+        'semesterlist' => $semesterList
+      ], 200);
     } catch (\Exception $e) {
       return response([
         'message' => $e->getMessage()
@@ -113,13 +113,13 @@ class CourseController extends Controller
     }
   }
 
-    // Delete semester list
-    public function deleteSemesterList($id)
-    {
-        $list = SemesterList::find($id)
-            ->delete();
-         return response()->json([
-            'message' => 'You have deleted all the semester list'
-        ], 200);
-    }
+  // Delete semester list
+  public function deleteSemesterList($id)
+  {
+    $list = SemesterList::where('staff_id', $id)
+      ->delete();
+    return response()->json([
+      'message' => 'You have deleted all the semester list'
+    ], 200);
+  }
 }
