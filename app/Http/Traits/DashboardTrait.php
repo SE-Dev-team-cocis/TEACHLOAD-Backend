@@ -110,7 +110,31 @@ trait DashboardTrait {
     /*Calculate allocated and unallocated courses */
     public static function allocate_unallocate_func()
     {
+        $all_courses = Course::all();
+        $teaching_load = TeachingLoad::all();
+        $allocated = 0;
+        //    $magic = array();
+        $magic = collect([]);
 
+        $magic = $magic->unique();
+
+        foreach($teaching_load as $value)
+        {
+            foreach(json_decode($value->courses) as $m)
+            {
+                foreach($all_courses as $course)
+                {
+                    if($m == $course->course_name)
+                    {
+                        if (!$magic->contains($m)) {
+                            $magic->add($m);
+                        }
+                    }
+                }
+            }
+        }
+
+        return ["allocated_courses" => $magic->count(), "all_courses"=>$all_courses->count()];
     }
 }
 
