@@ -27,8 +27,8 @@ class DashboardController extends Controller
           $deps = $this->categorize_load_dept($sample);
           $course_summary = $this->allocate_unallocate_func();
 
-          return response(["
-                    overall_total_load"=>$total_load,
+          return response([
+                    "overall_total_load"=>$total_load,
                     "total_staff"=>$staff->count(),
                     "staff" => $sample,
                     "department_load"=>$deps,
