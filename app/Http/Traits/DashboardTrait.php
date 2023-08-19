@@ -72,7 +72,8 @@ trait DashboardTrait {
                 "department_name" => $department,
                 "min_load" => 0,
                 "extra_load" => 0,
-                "under_load" => 0
+                "under_load" => 0,
+                "department_id" => $department['id']
             );
         }
 
