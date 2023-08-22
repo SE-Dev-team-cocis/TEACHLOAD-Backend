@@ -119,6 +119,7 @@ trait DashboardTrait {
 
         $magic = $magic->unique();
 
+
         foreach($teaching_load as $value)
         {
             foreach(json_decode($value->courses) as $m)
@@ -137,5 +138,46 @@ trait DashboardTrait {
 
         return ["allocated_courses" => $magic->count(), "all_courses"=>$all_courses->count()];
     }
+
+    /* unallocated courses */
+
+    public static function unallocate_func()
+    {
+         $all_courses = Course::all();
+        $teaching_load = TeachingLoad::all();
+        $allocated = 0;
+        //    $magic = array();
+        $distinct = collect([]);
+
+        $distinct = $distinct->unique();
+         $unasigned_courses = collect([]);
+
+        foreach($teaching_load as $value)
+        {
+            foreach(json_decode($value->courses) as $m)
+            {
+                foreach($all_courses as $course)
+                {
+                    if($m == $course->course_name)
+                    {
+                        if (!$distinct->contains($m)) {
+                            $distinct->add($m);
+                        }
+                    }
+                }
+            }
+        }
+
+        /* get unallocated courses */
+        $allCourses =array();
+
+        foreach($all_courses as $course){
+            array_push($allCourses, $course->course_name);
+        }
+        $unassigned = array_values(array_diff($allCourses, $distinct->toArray()));
+
+        return  $unassigned;
+    }
+   /* Lecturers with no assignments */
 }
 
