@@ -17,9 +17,9 @@ class DashboardController extends Controller
 
           $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
 
-        //   if($taechingload->count() < 1){
-        //     return response(["message"=>"There is currently no brodcast Load", "count" => 0], 200);
-        //   }
+          if($taechingload->count() < 1){
+            return response(["message"=>"There is currently no brodcast Load", "count" => 0], 200);
+          }
 
           $staff = User::all();
           $sample = $this->calculate_cus($taechingload,$staff);
