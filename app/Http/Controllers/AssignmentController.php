@@ -156,7 +156,7 @@ class AssignmentController extends Controller
              "CUs" =>  $request->CUs
            ]);
 
-           return response(['status'=>true,'message'=>"load updated successfully", "load" => $teaching_load->get()],200);
+           return response(['status'=>true,'message'=>"load updated successfully", "load" => TeachingLoad::all()],200);
 
         }catch(\Exception $e){
             return response([
