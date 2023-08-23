@@ -28,12 +28,12 @@ use App\Http\Controllers\SemesterController;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
-/*  Assignement Coner */
+/*  Assignement Corner */
 Route::post('/assign', [AssignmentController::class, 'create']);
 Route::get('/allAssign', [AssignmentController::class, 'index']);
 Route::delete('/delete', [AssignmentController::class, 'deleteLoad']);
 Route::delete('/deleteload', [AssignmentController::class, 'deleteLoadById']);
-
+Route::put('/assign', [AssignmentController::class, 'update_load']);
 /* Subgroups */
 Route::post('/subgroup/create', [CourseController::class, 'createSubgroup']);
 

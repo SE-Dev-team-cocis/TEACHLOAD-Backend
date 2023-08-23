@@ -139,4 +139,29 @@ class AssignmentController extends Controller
             ],400);
         }
     }
+    /* uPDATE LOAD */
+    public function update_load(Request $request)
+    {
+        try{
+           $staff_id = $request->input("staff_id");
+           $teaching_load = TeachingLoad::where('staff_id', "=", $staff_id);
+
+           if( $teaching_load->get()->count() == 0)
+           {
+            return response(['status'=>false,'message'=>'You have no teaching load to update',"load" => $request->staff_id],200);
+           }
+           /* update */
+           $teaching_load->update([
+             "courses" => $request->courses,
+             "CUs" =>  $request->CUs
+           ]);
+
+           return response(['status'=>true,'message'=>"load updated successfully", "load" => $teaching_load->get()],200);
+
+        }catch(\Exception $e){
+            return response([
+                'error'=> $e->getMessage()
+            ],400);
+        }
+    }
 }
