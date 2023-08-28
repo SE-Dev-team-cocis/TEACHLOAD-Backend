@@ -133,10 +133,12 @@ trait DashboardTrait {
                         }
                     }
                 }
+
             }
         }
 
-        return ["allocated_courses" => $magic->count(), "all_courses"=>$all_courses->count()];
+     return ["allocated_courses" => $magic->count(), "all_courses"=>$all_courses->count()];
+        //return $magic;
     }
 
     /* unallocated courses */
