@@ -42,7 +42,7 @@ Route::get('/courseUnits', [CourseController::class, 'getAllCourse']);
 Route::post('/courseUnits/create', [CourseController::class, 'createCourse']);
 
 /* Staff */
-Route::get('/getStaff', [StaffController::class, 'getAllStaff']);
+Route::get('/getStaff', [StaffController::class, 'getAllStaff'])->middleware('role:dean');;
 
 /* Staff List */
 Route::post('/semesterlist/create', [CourseController::class, 'createSemesterList']);

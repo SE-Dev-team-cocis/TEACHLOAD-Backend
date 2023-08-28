@@ -156,7 +156,21 @@ class AssignmentController extends Controller
              "CUs" =>  $request->CUs
            ]);
 
-           return response(['status'=>true,'message'=>"load updated successfully", "load" => TeachingLoad::all()],200);
+           $load=TeachingLoad::all();
+           $teaching_load=array();
+
+           foreach($load as $value){
+               $magic['id']=$value->id;
+               $magic['CUs']=\json_decode($value->CUs);
+               $magic["staff_id"]=$value->staff_id;
+               $magic["courses"]=$value->courses;
+               $magic["semester"]=$value->semester;
+               $magic["assignee_id"]=$value->assignee_id;
+
+              array_push($teaching_load,$magic);
+           }
+
+           return response(['status'=>true,'message'=>"load updated successfully", "load" => $teaching_load],200);
 
         }catch(\Exception $e){
             return response([

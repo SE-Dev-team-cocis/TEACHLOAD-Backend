@@ -40,6 +40,8 @@ class AuthController extends Controller
         /**Hash password */
             $validatedData['password'] = bcrypt($request->password);
             $user = User::create($validatedData);
+            /*Assign Default Role */
+            $user->assignRole('lecturer');
             // sends a verification email once registration is done
             // event(new Registered($user));
             $accessToken = $user->createToken('authToken')->accessToken;
