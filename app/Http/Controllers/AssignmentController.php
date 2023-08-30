@@ -72,7 +72,7 @@ class AssignmentController extends Controller
 
 
             $assign =TeachingLoad::create([
-                'courses'=>$request->input('courses'),
+                'courses'=> $request->input('courses'),
                 'CUs'=>$request->input('CUs'),
                 'staff_id'=>$request->input('staff_id'),
                 'assignee_id'=>$request->input('assignee_id')
@@ -87,6 +87,7 @@ class AssignmentController extends Controller
                 'assignments' => $assignments
 
             ],200);
+
         }catch(\Exception $e){
             return response([
                 'message'=> $e->getMessage()
@@ -99,7 +100,7 @@ class AssignmentController extends Controller
         try{
             $load = TeachingLoad::where('id','=',$request->input('id'), 'and')->where('assignee_id','=',$request->input('assignee_id'),'and')->where('semester', '=',1)->delete();
 
-            if($load==0){
+            if($load == 0){
                 return response(['status'=>false,'message'=>'You have no teaching load to delete'],200);
              }
 
@@ -108,7 +109,7 @@ class AssignmentController extends Controller
 
              return response([
                    'status'=>true,
-                   'message'=>'Cleared all Your load for a specific Semester',
+                   'message'=> 'Cleared all Your load for a specific Semester',
                    'assignments' => $assignments
                 ],200);
         }catch(\Exception $e){
