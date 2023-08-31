@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Http\Requests\AssigneeRequest;
 use App\Models\User;
+use App\Http\Traits\DashboardTrait;
 
 class AssignmentController extends Controller
 {
-
+    use DashboardTrait;
     /** Static method to return all the load when a load is assigned */
     public static function returnLoad()
     {
@@ -144,6 +145,16 @@ class AssignmentController extends Controller
     public function update_load(Request $request)
     {
         try{
+
+            /*Reset dashbooard */
+                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
+                $staff = User::all();
+                $sample = $this->calculate_cus($taechingload,$staff);
+                $total_load = $this->categorize_load($sample);
+                $deps = $this->categorize_load_dept($sample);
+                $course_summary = $this->allocate_unallocate_func();
+                $unallocated_courses = $this->unallocate_func();
+            /* End of reset */
            $staff_id = $request->input("staff_id");
            $teaching_load = TeachingLoad::where('staff_id', "=", $staff_id);
 
@@ -170,8 +181,17 @@ class AssignmentController extends Controller
 
               array_push($teaching_load,$magic);
            }
-
-           return response(['status'=>true,'message'=>"load updated successfully", "load" => $teaching_load],200);
+           /* Dsboard Reset data */
+           $dasboard_response = [
+                "overall_total_load" => $total_load,
+                "total_staff"=>$staff->count(),
+                "staff" => $sample,
+                "department_load"=>$deps,
+                "course_summary" => $course_summary,
+                "unallocated_courses" => $unallocated_courses
+           ];
+          /* End of Response data */
+           return response(['status'=>true,'message'=>"load updated successfully", "load" => $teaching_load, "others" => $dasboard_response],200);
 
         }catch(\Exception $e){
             return response([
