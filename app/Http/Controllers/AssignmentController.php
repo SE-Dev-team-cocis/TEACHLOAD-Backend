@@ -96,9 +96,19 @@ class AssignmentController extends Controller
         }
 
     }
+
     /*Delete by teaching load id */
     public function deleteLoadById(Request $request){
         try{
+             /*Reset dashbooard */
+                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
+                $staff = User::all();
+                $sample = $this->calculate_cus($taechingload,$staff);
+                $total_load = $this->categorize_load($sample);
+                $deps = $this->categorize_load_dept($sample);
+                $course_summary = $this->allocate_unallocate_func();
+                $unallocated_courses = $this->unallocate_func();
+            /* End of reset */
             $load = TeachingLoad::where('id','=',$request->input('id'), 'and')->where('assignee_id','=',$request->input('assignee_id'),'and')->where('semester', '=',1)->delete();
 
             if($load == 0){
@@ -108,10 +118,23 @@ class AssignmentController extends Controller
              /*Get all Load */
              $assignments = $this->returnLoad();
 
+              /* Dsboard Reset data */
+              $dasboard_response = [
+                "overall_total_load" => $total_load,
+                "total_staff"=>$staff->count(),
+                "staff" => $sample,
+                "department_load"=>$deps,
+                "course_summary" => $course_summary,
+                "unallocated_courses" => $unallocated_courses
+                ];
+            /* End of Response data */
+
+
              return response([
                    'status'=>true,
                    'message'=> 'Cleared all Your load for a specific Semester',
-                   'assignments' => $assignments
+                   'assignments' => $assignments,
+                   'others' => $dasboard_response
                 ],200);
         }catch(\Exception $e){
             return response([
@@ -119,9 +142,20 @@ class AssignmentController extends Controller
             ],400);
         }
     }
+
+
     /*delete all teaching load of a specific head of department */
     public function deleteLoad(Request $request){
         try{
+            /*Reset dashbooard */
+                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
+                $staff = User::all();
+                $sample = $this->calculate_cus($taechingload,$staff);
+                $total_load = $this->categorize_load($sample);
+                $deps = $this->categorize_load_dept($sample);
+                $course_summary = $this->allocate_unallocate_func();
+                $unallocated_courses = $this->unallocate_func();
+           /* End of reset */
             /*Test input */
             $load = TeachingLoad::where('assignee_id', '=',$request->input('assignee_id'), 'and')->where('semester', '=',1)->delete();
              if($load==0){
@@ -129,11 +163,22 @@ class AssignmentController extends Controller
              }
 
              $assignments = $this->returnLoad();
+             /* Dsboard Reset data */
+            $dasboard_response = [
+                    "overall_total_load" => $total_load,
+                    "total_staff"=>$staff->count(),
+                    "staff" => $sample,
+                    "department_load"=>$deps,
+                    "course_summary" => $course_summary,
+                    "unallocated_courses" => $unallocated_courses
+            ];
+           /* End of Response data */
 
              return response([
                     'status'=>true,
                     'message'=>'Cleared all Your load for a specific Semester',
-                    'assignments' => $assignments
+                    'assignments' => $assignments,
+                    'others' => $dasboard_response
                 ],200);
         }catch(\Exception $e){
             return response([
