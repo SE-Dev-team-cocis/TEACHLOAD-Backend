@@ -100,15 +100,7 @@ class AssignmentController extends Controller
     /*Delete by teaching load id */
     public function deleteLoadById(Request $request){
         try{
-             /*Reset dashbooard */
-                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
-                $staff = User::all();
-                $sample = $this->calculate_cus($taechingload,$staff);
-                $total_load = $this->categorize_load($sample);
-                $deps = $this->categorize_load_dept($sample);
-                $course_summary = $this->allocate_unallocate_func();
-                $unallocated_courses = $this->unallocate_func();
-            /* End of reset */
+
             $load = TeachingLoad::where('id','=',$request->input('id'), 'and')->where('assignee_id','=',$request->input('assignee_id'),'and')->where('semester', '=',1)->delete();
 
             if($load == 0){
@@ -118,7 +110,16 @@ class AssignmentController extends Controller
              /*Get all Load */
              $assignments = $this->returnLoad();
 
-              /* Dsboard Reset data */
+             /*Reset dashbooard */
+                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
+                $staff = User::all();
+                $sample = $this->calculate_cus($taechingload,$staff);
+                $total_load = $this->categorize_load($sample);
+                $deps = $this->categorize_load_dept($sample);
+                $course_summary = $this->allocate_unallocate_func();
+                $unallocated_courses = $this->unallocate_func();
+            /* End of reset */
+              /* Dasboard Reset data */
               $dasboard_response = [
                 "overall_total_load" => $total_load,
                 "total_staff"=>$staff->count(),
@@ -147,15 +148,7 @@ class AssignmentController extends Controller
     /*delete all teaching load of a specific head of department */
     public function deleteLoad(Request $request){
         try{
-            /*Reset dashbooard */
-                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
-                $staff = User::all();
-                $sample = $this->calculate_cus($taechingload,$staff);
-                $total_load = $this->categorize_load($sample);
-                $deps = $this->categorize_load_dept($sample);
-                $course_summary = $this->allocate_unallocate_func();
-                $unallocated_courses = $this->unallocate_func();
-           /* End of reset */
+
             /*Test input */
             $load = TeachingLoad::where('assignee_id', '=',$request->input('assignee_id'), 'and')->where('semester', '=',1)->delete();
              if($load==0){
@@ -163,7 +156,16 @@ class AssignmentController extends Controller
              }
 
              $assignments = $this->returnLoad();
-             /* Dsboard Reset data */
+             /*Reset dashbooard */
+                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
+                $staff = User::all();
+                $sample = $this->calculate_cus($taechingload,$staff);
+                $total_load = $this->categorize_load($sample);
+                $deps = $this->categorize_load_dept($sample);
+                $course_summary = $this->allocate_unallocate_func();
+                $unallocated_courses = $this->unallocate_func();
+             /* End of reset */
+             /* Dasboard Reset data */
             $dasboard_response = [
                     "overall_total_load" => $total_load,
                     "total_staff"=>$staff->count(),
@@ -191,15 +193,6 @@ class AssignmentController extends Controller
     {
         try{
 
-            /*Reset dashbooard */
-                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
-                $staff = User::all();
-                $sample = $this->calculate_cus($taechingload,$staff);
-                $total_load = $this->categorize_load($sample);
-                $deps = $this->categorize_load_dept($sample);
-                $course_summary = $this->allocate_unallocate_func();
-                $unallocated_courses = $this->unallocate_func();
-            /* End of reset */
            $staff_id = $request->input("staff_id");
            $teaching_load = TeachingLoad::where('staff_id', "=", $staff_id);
 
@@ -226,6 +219,16 @@ class AssignmentController extends Controller
 
               array_push($teaching_load,$magic);
            }
+
+            /*Reset dashbooard */
+                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
+                $staff = User::all();
+                $sample = $this->calculate_cus($taechingload,$staff);
+                $total_load = $this->categorize_load($sample);
+                $deps = $this->categorize_load_dept($sample);
+                $course_summary = $this->allocate_unallocate_func();
+                $unallocated_courses = $this->unallocate_func();
+           /* End of reset */
            /* Dsboard Reset data */
            $dasboard_response = [
                 "overall_total_load" => $total_load,
