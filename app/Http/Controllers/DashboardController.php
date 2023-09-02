@@ -39,7 +39,7 @@ class DashboardController extends Controller
 
     /* Broad Cast functionality*/
 
-    public static function broadcast_load($id)
+    public function broadcast_load($id)
     {
         try{
             $user = User::find($id);
@@ -55,8 +55,32 @@ class DashboardController extends Controller
                 return response(["message"=>"You have no load to broadcast", "success"=>false]);
             }
             $selected_load ->update(['broadcast' => true]);
+
+            /*Reset dashbooard */
+               $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
+               $staff = User::all();
+               $sample = $this->calculate_cus($taechingload,$staff);
+               $total_load = $this->categorize_load($sample);
+               $deps = $this->categorize_load_dept($sample);
+               $course_summary = $this->allocate_unallocate_func();
+               $unallocated_courses = $this->unallocate_func();
+            /* End of reset */
+            /* Dsboard Reset data */
+            $dasboard_response = [
+                "overall_total_load" => $total_load,
+                "total_staff"=>$staff->count(),
+                "staff" => $sample,
+                "department_load"=>$deps,
+                "course_summary" => $course_summary,
+                "unallocated_courses" => $unallocated_courses
+            ];
+         /* End of Response data */
             /* Return message */
-            return response(["message"=>"You have successfully broadcast your assigned", "success"=>true]);
+            return response([
+                "message"=>"You have successfully broadcast your assigned",
+                "success"=>true,
+                "others" => $dasboard_response
+            ]);
         }
         catch (\Exception $e) {
             return response([
