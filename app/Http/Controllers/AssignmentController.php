@@ -70,7 +70,28 @@ class AssignmentController extends Controller
                 $user=User::find($checkStaff->staff_id);
                 return response(['status'=>false,'message' => $user->firstName. " ".$user->lastName." already has a teaching load in this Semester"],200);
             }
+           //get all teaching load from a specific staff id and semester 1
+           $all_teaching = TeachingLoad::where('semester', '=', 1)->get();
+           //decode the courses in $all_teaching->courses to an array and compare with $request->courses then store them in a new array $already_assigned
+              $already_assigned = array();
+              foreach($all_teaching as $value){
+                $courses = \json_decode($value->courses);
+                foreach($courses as $course){
+                    if(in_array($course,\json_decode($request->courses))){
+                        array_push($already_assigned,$course);
+                    }
+                }
+            };
 
+            $message = implode(',', $already_assigned);
+            /* if $already_assigned length is greater than zero */
+            if(count($already_assigned) > 0){
+                return response([
+                    'status'=>false,
+                    'assigned_courses' => $already_assigned,
+                    'message' => "$message already assigned!"
+               ],200);
+            }
 
             $assign =TeachingLoad::create([
                 'courses'=> $request->input('courses'),
