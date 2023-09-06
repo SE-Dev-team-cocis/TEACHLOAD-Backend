@@ -74,30 +74,30 @@ class CourseController extends Controller
       //   $requestValue = \json_decode($request->input('semester_list'));
       $requestValue = $request->input('semester_list');
       /* Check if the the staff member already has semester list */
-      $checkSemList = SemesterList::where('staff_id', $requestValue[0]["staff_id"])->first();
-      $distinct_courses = array();
-      /* check */
-      if($checkSemList){
+    //   $checkSemList = SemesterList::where('staff_id', $requestValue[0]["staff_id"])->first();
+    //   $distinct_courses = array();
+    //   /* check */
+    //   if($checkSemList){
 
-            foreach($requestValue as $req_value){
-                if($checkSemList->course_id != $req_value["course_id"]){
-                    array_push($distinct_courses,$req_value);
-                }
-            }
+    //         foreach($requestValue as $req_value){
+    //             if($checkSemList->course_id != $req_value["course_id"]){
+    //                 array_push($distinct_courses,$req_value);
+    //             }
+    //         }
 
-            foreach ($distinct_courses as $value) {
-                SemesterList::create([
-                  'staff_id' => $value['staff_id'],
-                  'course_id' => $value['course_id'],
-                  'semester' => $value['semester']
-                ]);
-              }
+    //         foreach ($distinct_courses as $value) {
+    //             SemesterList::create([
+    //               'staff_id' => $value['staff_id'],
+    //               'course_id' => $value['course_id'],
+    //               'semester' => $value['semester']
+    //             ]);
+    //           }
 
-            return response([
-                'message' => "Updated Semester List",
-                'success' => true
-            ], 201);
-      }
+    //         return response([
+    //             'message' => "Updated Semester List",
+    //             'success' => true
+    //         ], 201);
+    //   }
 
       foreach ($requestValue as $value) {
         SemesterList::create([
