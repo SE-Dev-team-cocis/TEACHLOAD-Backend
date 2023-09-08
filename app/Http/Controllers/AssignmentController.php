@@ -82,31 +82,14 @@ class AssignmentController extends Controller
                     }
                 }
             };
-            /*Reset dashbooard */
-                $taechingload = TeachingLoad::where(['broadcast'=> 1])->get();
-                $staff = User::all();
-                $sample = $this->calculate_cus($taechingload,$staff);
-                $total_load = $this->categorize_load($sample);
-                $deps = $this->categorize_load_dept($sample);
-                $course_summary = $this->allocate_unallocate_func();
-                $unallocated_courses = $this->unallocate_func();
-            /* End of reset */
-            /* Dasboard Reset data */
-            $dasboard_response = [
-                "overall_total_load" => $total_load,
-                "total_staff"=>$staff->count(),
-                "staff" => $sample,
-                "department_load"=>$deps,
-                "course_summary" => $course_summary,
-                "unallocated_courses" => $unallocated_courses
-                ];
+
             $message = implode(',', $already_assigned);
             /* if $already_assigned length is greater than zero */
             if(count($already_assigned) > 0){
                 return response([
                     'status'=>false,
                     'assigned_courses' => $already_assigned,
-                    'others' => $dasboard_response,
+                    'load'=>TeachingLoad::all(),
                     'message' => "$message already assigned!"
                ],200);
             }
