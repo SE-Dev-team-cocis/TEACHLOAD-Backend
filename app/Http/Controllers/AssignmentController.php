@@ -65,6 +65,7 @@ class AssignmentController extends Controller
     {
 
         try{
+            $assignments = $this->returnLoad();
             $checkStaff = TeachingLoad::where('staff_id', '=',$request->input('staff_id'), 'and')->where('semester', '=', 1)->first();
             if($checkStaff){
                 $user=User::find($checkStaff->staff_id);
@@ -89,7 +90,7 @@ class AssignmentController extends Controller
                 return response([
                     'status'=>false,
                     'assigned_courses' => $already_assigned,
-                    'load'=>TeachingLoad::all(),
+                    'load'=>$assignments,
                     'message' => "$message already assigned!"
                ],200);
             }
@@ -101,7 +102,7 @@ class AssignmentController extends Controller
                 'assignee_id'=>$request->input('assignee_id')
              ]);
 
-            $assignments = $this->returnLoad();
+
 
              return response([
                 'status'=>true,
