@@ -262,7 +262,10 @@ class AssignmentController extends Controller
                 "unallocated_courses" => $unallocated_courses
            ];
           /* End of Response data */
-           return response(['status'=>true,'message'=>"load updated successfully", "load" => $teaching_load, "others" => $dasboard_response],200);
+           return response(['status'=>true,
+                            'message'=>"load updated successfully",
+                            "load" => $teaching_load,
+                            "others" => $dasboard_response],200);
 
         }catch(\Exception $e){
             return response([
