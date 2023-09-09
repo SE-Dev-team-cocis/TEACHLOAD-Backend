@@ -99,7 +99,8 @@ class CourseController extends Controller
 
             return response([
                 'message' => "Updated Semester List",
-                'success' => true
+                'success' => true,
+                'semesterlist' => SemesterList::all()->load("course.subgroups")
             ], 201);
       }
 
