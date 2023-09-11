@@ -65,7 +65,7 @@ class AssignmentController extends Controller
     {
 
         try{
-            $assignments = $this->returnLoad();
+           
             $checkStaff = TeachingLoad::where('staff_id', '=',$request->input('staff_id'), 'and')->where('semester', '=', 1)->first();
             if($checkStaff){
                 $user=User::find($checkStaff->staff_id);
@@ -83,6 +83,8 @@ class AssignmentController extends Controller
                     }
                 }
             };
+
+            $assignments = $this->returnLoad(); // returns formatted assignments
 
             $message = implode(',', $already_assigned);
             /* if $already_assigned length is greater than zero */

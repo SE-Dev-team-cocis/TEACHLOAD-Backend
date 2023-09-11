@@ -11,21 +11,23 @@ use Illuminate\Support\Facades\Validator;
 class AuthController extends Controller
 {
     /*make register function */
-    public function register(Request $request){
+    public function register(Request $request)
+    {
 
-          /*validate email */
-       $validatedEmail=Validator::make($request->all(),[
-        'email'=>'required|string|email|max:255|unique:users'
-       ]);
+        /*validate email */
+        $validatedEmail = Validator::make($request->all(), [
+            'email' => 'required|string|email|max:255|unique:users'
+        ]);
 
         /*check validity */
-       if($validatedEmail->fails()){
-        return response()->json([
-           'error'=>'Email Validation Error',
-           'message'=>'A user with this account already exists.'
+        if ($validatedEmail->fails()) {
+            return response()->json([
+                'error' => 'Email Validation Error',
+                'message' => 'A user with this account already exists.',
+                'register' => false
 
-        ],Response::HTTP_OK);
-      }
+            ], Response::HTTP_OK);
+        }
 
         /* Verify data exists */
         $validatedData = $request->validate([
@@ -33,19 +35,19 @@ class AuthController extends Controller
             'lastName' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|confirmed',
-            'department'=>'required',
-            'role'=>'required'
+            'department' => 'required',
+            'role' => 'required'
         ]);
 
         /**Hash password */
-            $validatedData['password'] = bcrypt($request->password);
-            $user = User::create($validatedData);
-            /*Assign Default Role */
-            $user->assignRole('lecturer');
-            // sends a verification email once registration is done
-            // event(new Registered($user));
-            $accessToken = $user->createToken('authToken')->accessToken;
-            return response(['access_token' => $accessToken,'user'=>$user,'register'=>true], Response::HTTP_OK); //200
+        $validatedData['password'] = bcrypt($request->password);
+        $user = User::create($validatedData);
+        /*Assign Default Role */
+        $user->assignRole('lecturer');
+        // sends a verification email once registration is done
+        // event(new Registered($user));
+        $accessToken = $user->createToken('authToken')->accessToken;
+        return response(['access_token' => $accessToken, 'user' => $user, 'register' => true], Response::HTTP_OK); //200
 
 
     }
@@ -60,11 +62,11 @@ class AuthController extends Controller
 
         ]);
         if (!auth()->attempt($loginData)) {
-            return response(['message' => 'Invalid Login Credentials. Try again','login'=>false],Response::HTTP_OK);
+            return response(['message' => 'Invalid Login Credentials. Try again', 'login' => false], Response::HTTP_OK);
         }
 
         $accessToken = auth()->user()->createToken('authToken')->accessToken;
-        return response(['user' => auth()->user(), 'access_token' => $accessToken,'login'=>true]);
+        return response(['user' => auth()->user(), 'access_token' => $accessToken, 'login' => true]);
     }
 
     /*Logout Function */
@@ -75,5 +77,4 @@ class AuthController extends Controller
             'message' => 'Successfully logged out',
         ], Response::HTTP_OK); //Status 200
     }
-
 }
